@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const logger = require('./middleware/logger')
 
 const app = express()
 
@@ -7,31 +8,15 @@ const app = express()
 //   res.sendFile(path.join(__dirname, 'public', 'index.html'))
 // })
 
-const members = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@gmail.com',
-    status: 'active'
-  },
-  {
-    id: 2,
-    name: 'Bob Williams',
-    email: 'bob@gmail.com',
-    status: 'inactive'
-  },
-  {
-    id: 3,
-    name: 'Shannon Jackson',
-    email: 'shannon@gmail.com',
-    status: 'active'
-  }
-]
-//get all members:
-app.get('/api/members', (req, res) => res.json(members))
+//init middleware
+// app.use(logger)
 
 //set a static folder
 app.use(express.static(path.join(__dirname, 'public')))
+
+//members api routes
+
+app.use('/api/members', require('./routes/api/members'))
 
 const PORT = process.env.PORT || 5000
 
